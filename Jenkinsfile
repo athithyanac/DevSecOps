@@ -31,14 +31,17 @@ pipeline {
           // Define the Docker image name with the GIT_COMMIT as the tag
           def dockerImageName = "athithyanac/node-service:${env.GIT_COMMIT}"
 
+          //Buil Docker image
+          sh "docker build -t ${dockerImageName} ."
+
           // Authenticate with Docker Hub and push the image
-          withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
-            sh "docker build -t ${dockerImageName} ."
+          //withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
+            //sh "docker build -t ${dockerImageName} ."
             //sh "docker push ${dockerImageName}"
           }
         }
       }
-    }
+    }/*
     stage('Kubernetes Deployment - DEV') {
       steps {
         withKubeConfig([credentialsId: 'kubeconfig']) {
@@ -48,6 +51,6 @@ pipeline {
           sh "rm k8s_deployment_service_temp.yaml"
         }
       }
-    }
+    }*/
   }
 }

@@ -29,7 +29,7 @@ pipeline {
           def dockerImageName = "athithyanac/node-service:${env.GIT_COMMIT}"
 
           // Authenticate with Docker Hub and push the image
-          withDockerRegistry(credentialsId: "dockerhub", url: "https://hub.docker.com/") {
+          withDockerRegistry(credentialsId: "Dockerhub", url: "https://index.docker.io/v1/") {
             sh "docker build -t ${dockerImageName} ."
             sh "docker push ${dockerImageName}"
           }

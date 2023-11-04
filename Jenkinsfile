@@ -1,4 +1,7 @@
 pipeline {
+  environment {
+      DOCKERHUB_CREDENTIALS = credentialsId('Dockerhub')
+  }
   agent any
   stages {
     stage('Build Artifact') {
@@ -23,9 +26,6 @@ pipeline {
       }
     }
     stage('Docker Build and Push') {
-      environment {
-          DOCKERHUB_CREDENTIALS = credentialsId('Dockerhub')
-      }
       steps {
         script {
           sh "pwd;ls -l"

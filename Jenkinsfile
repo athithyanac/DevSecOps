@@ -34,7 +34,7 @@ pipeline {
           // Authenticate with Docker Hub and push the image
           withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
             sh "docker build -t ${dockerImageName} ."
-            sh "docker push ${dockerImageName}"
+            //sh "docker push ${dockerImageName}"
           }
         }
       }

@@ -26,7 +26,7 @@ pipeline {
       steps {
         script {
           //Printing username
-          sh 'echo $USER'
+          sh 'sudo -i;echo $USER'
 
           // Define the Docker image name with the GIT_COMMIT as the tag
           def dockerImageName = "athithyanac/node-service:${env.GIT_COMMIT}"

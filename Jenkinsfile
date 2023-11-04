@@ -35,12 +35,18 @@ pipeline {
           //Buil Docker image
           //sh "docker build -t ${dockerImageName} ."
 
-          // Authenticate with Docker Hub and push the image
-          withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
-            sh "docker build -t ${dockerImageName} ."
-            sh "docker push ${dockerImageName}"
-          }
+          // // Authenticate with Docker Hub and push the image
+          // withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
+          //   sh "docker build -t ${dockerImageName} ."
+          //   sh "docker push ${dockerImageName}"
+          // }
+                  sh 'echo $DOCKERHUB_CREDENTIALS_PSW'
         }
+      }
+    }
+    stage('Docker login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
       }
     }
     // stage('Kubernetes Deployment - DEV') {

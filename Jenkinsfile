@@ -51,6 +51,6 @@ pipeline {
     //       sh "rm k8s_deployment_service_temp.yaml"
     //     }
     //   }
-    }
+    // }
   }
 }

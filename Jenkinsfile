@@ -25,8 +25,6 @@ pipeline {
     stage('Docker Build and Push') {
       steps {
         script {
-          //Printing username
-          //sh 'sudo -i;echo $USER'
 
           // Define the Docker image name with the GIT_COMMIT as the tag
           def dockerImageName = "athithyanac/node-service:${env.GIT_COMMIT}"
@@ -38,7 +36,7 @@ pipeline {
           //withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
             //sh "docker build -t ${dockerImageName} ."
             //sh "docker push ${dockerImageName}"
-          }
+          //}
         }
       }
     }

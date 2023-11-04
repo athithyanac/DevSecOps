@@ -40,13 +40,15 @@ pipeline {
           //   sh "docker build -t ${dockerImageName} ."
           //   sh "docker push ${dockerImageName}"
           // }
-                  sh 'echo $DOCKERHUB_CREDENTIALS_PSW'
         }
       }
     }
     stage('Docker login') {
       steps {
         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        //Buil Docker image and Push
+        sh "docker build -t ${dockerImageName} ."
+        sh "docker push ${dockerImageName}"
       }
     }
     // stage('Kubernetes Deployment - DEV') {

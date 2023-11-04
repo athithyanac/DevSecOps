@@ -22,5 +22,29 @@ pipeline {
         }
       }
     }
+    stage('Docker Build and Push') {
+      steps {
+        script {
+          // Define the Docker image name with the GIT_COMMIT as the tag
+          def dockerImageName = "athithyanac/node-service:${env.GIT_COMMIT}"
+
+          // Authenticate with Docker Hub and push the image
+          withDockerRegistry(credentialsId: "dockerhub", url: "https://hub.docker.com/") {
+            sh "docker build -t ${dockerImageName} ."
+            sh "docker push ${dockerImageName}"
+          }
+        }
+      }
+    }
+    stage('Kubernetes Deployment - DEV') {
+      steps {
+        withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh "cp k8s_deployment_service.yaml k8s_deployment_service_temp.yaml"
+          sh "sed -i 's#replace#dsocouncil/node-service:${GIT_COMMIT}#g' k8s_deployment_service_temp.yaml"
+          sh "kubectl apply -f k8s_deployment_service_temp.yaml"
+          sh "rm k8s_deployment_service_temp.yaml"
+        }
+      }
+    }
   }
 }

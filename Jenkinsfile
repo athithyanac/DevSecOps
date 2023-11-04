@@ -9,7 +9,7 @@ pipeline {
     }
     stage('SonarQube - SAST') {
       steps {
-        sh "mvn sonar:sonar -Dsonar.projectKey=secops-application -Dsonar.host.url=http://192.168.29.49:9000 -Dsonar.login=sqp_3e34c8b75cb99548f20adab86af9700db083cc22"
+        sh "mvn sonar:sonar -Dsonar.projectKey=secops-application -Dsonar.host.url=http://192.168.29.49:9000 -Dsonar.token=sqp_625fc5bb1983ec8736fc5b6bdca046fa67e54677"
       }
     }
   }

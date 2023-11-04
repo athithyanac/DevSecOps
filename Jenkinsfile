@@ -25,7 +25,7 @@ pipeline {
     stage('Docker Build and Push') {
       steps {
         script {
-
+          sh "pwd;ls -l"
           // Define the Docker image name with the GIT_COMMIT as the tag
           def dockerImageName = "athithyanac/node-service:${env.GIT_COMMIT}"
 

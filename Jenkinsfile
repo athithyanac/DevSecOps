@@ -33,13 +33,13 @@ pipeline {
           def dockerImageName = "athithyanac/node-service:${env.GIT_COMMIT}"
 
           //Buil Docker image
-          sh "docker build -t ${dockerImageName} ."
+          //sh "docker build -t ${dockerImageName} ."
 
           // Authenticate with Docker Hub and push the image
-          //withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
-            //sh "docker build -t ${dockerImageName} ."
-            //sh "docker push ${dockerImageName}"
-          //}
+          withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
+            sh "docker build -t ${dockerImageName} ."
+            sh "docker push ${dockerImageName}"
+          }
         }
       }
     }

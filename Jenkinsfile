@@ -1,6 +1,7 @@
 pipeline {
   environment {
       DOCKERHUB_CREDENTIALS = credentials('Dockerhub')
+      GIT_HASH = GIT_COMMIT.take(7)
   }
   agent any
   stages {
@@ -30,7 +31,7 @@ pipeline {
         script {
           sh "pwd;ls -l"
           // Define the Docker image name with the GIT_COMMIT as the tag
-          def dockerImageName = "athithyanac/node-service:${(env.GIT_COMMIT).take(7)}"
+          def dockerImageName = "athithyanac/node-service:${GIT_HASH}"
 
           //Buil Docker image
           sh "docker build -t ${dockerImageName} ."
@@ -53,7 +54,7 @@ pipeline {
       steps {
         withKubeConfig([credentialsId: 'kubeconfig']) {
           sh "cp k8s_deployment_service.yaml k8s_deployment_service_temp.yaml"
-          sh "sed -i 's#replace#athithyanac/node-service:${GIT_COMMIT.taken(7)}#g' k8s_deployment_service_temp.yaml"
+          sh "sed -i 's#replace#athithyanac/node-service:${GIT_HASH}#g' k8s_deployment_service_temp.yaml"
           sh "kubectl apply -f k8s_deployment_service_temp.yaml"
           sh "rm k8s_deployment_service_temp.yaml"
         }

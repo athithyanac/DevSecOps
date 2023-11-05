@@ -33,7 +33,13 @@ pipeline {
           def dockerImageName = "athithyanac/node-service:${env.GIT_COMMIT}"
 
           //Buil Docker image
-          //sh "docker build -t ${dockerImageName} ."
+          sh "docker build -t ${dockerImageName} ."
+
+          //Docker login
+          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+          //Docker push
+          sh "docker push ${dockerImageName}"
 
           // // Authenticate with Docker Hub and push the image
           // withDockerRegistry(credentialsId: "Dockerhub", url: "https://hub.docker.com/") {
@@ -43,14 +49,14 @@ pipeline {
         }
       }
     }
-    stage('Docker login') {
-      steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        //Buil Docker image and Push
-        sh "docker build -t ${dockerImageName} ."
-        sh "docker push ${dockerImageName}"
-      }
-    }
+    // stage('Docker login') {
+    //   steps {
+    //     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+    //     //Build Docker image and Push
+    //     sh "docker build -t ${dockerImageName} ."
+    //     sh "docker push ${dockerImageName}"
+    //   }
+    // }
     // stage('Kubernetes Deployment - DEV') {
     //   steps {
     //     withKubeConfig([credentialsId: 'kubeconfig']) {
